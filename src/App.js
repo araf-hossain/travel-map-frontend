@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import ReactMapGL, {Marker} from 'react-map-gl';
+import {Room} from "material-icons";
 
 function App() {
+  const [viewport, setViewport] = useState({
+    width: "100vw",
+    height: "100vh",
+    latitude: 48.858093,
+    longitude: -2.294694,
+    zoom: 8
+  });
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <ReactMapGL
+      {...viewport}
+      mapboxApiAccessToken={process.env.REACT_APP_MAPAPI}
+      onViewportChange={nextViewport => setViewport(nextViewport)}
+      >
+        <p style={{fontSize:viewport.zoom * 10}}>HERE I AM</p>
+        <Marker
+          latitude={48.858093}
+          longitude={2.294694}
+          offsetLeft={-20}
+          offsetTop={-10}
         >
-          Learn React
-        </a>
-      </header>
+         <Room style={{fontSize:viewport.zoom}} /> 
+        </Marker>
+      </ReactMapGL>
     </div>
   );
 }
